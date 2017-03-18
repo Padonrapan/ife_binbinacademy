@@ -1,0 +1,55 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 04</title>
+</head>
+<body>
+<form>
+    <input type="text" id="numInput"/>
+    <input type="button" id="left_in" value="左侧入"/>
+    <input type="button" id="right_in" value="右侧入"/>
+    <input type="button" id="left_out" value="左侧出"/>
+    <input type="button" id="right_out" value="右侧出"/>
+</form>
+<div id = "que"></div>
+
+
+<script type="text/javascript">
+    var queue=[];
+
+    function render() {
+        var text="";
+        for (var i = 0; i < queue.length; i++) {
+            text += "<span>"+queue[i]+"</span>&nbsp&nbsp&nbsp";
+        }
+        document.getElementById("que").innerHTML = text;
+    }
+    document.getElementById("left_in").onclick=function(){
+        var number=document.getElementById("numInput").value;
+        queue.unshift(number);
+       render();
+    };
+    document.getElementById("right_in").onclick=function(){
+        var number=document.getElementById("numInput").value;
+        queue.push(number);
+        render();
+    };
+    document.getElementById("left_out").onclick=function(){
+        queue.shift();
+        render();
+    };
+    document.getElementById("right_out").onclick=function(){
+        queue.pop();
+        render();
+    }
+
+    document.getElementById("que").onclick=function(event){
+        var index=queue.indexOf(event.target);
+        queue.splice(index,1);
+        render();
+    }
+
+</script>
+</body>
+</html>
