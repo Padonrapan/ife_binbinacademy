@@ -1,0 +1,131 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 18</title>
+    <style>
+        li{
+            width:10px;
+            color:#ff001a;
+            background-color: #7FCBF0;
+            font-size:6px;
+            list-style:none;
+            display:inline-block;
+            margin:3px;
+            text-align: left;
+        }
+        ul{
+            display: flex;
+            align-items: flex-end;
+        }
+    </style>
+</head>
+<body>
+<input type="text" id="inputbox"/>
+<button id="leftin">左侧入</button>
+<button id="rightin">右侧入</button>
+<button id="leftout">左侧出</button>
+<button id="rightout">右侧出</button>
+<button id="random">随机生成一组数据</button>
+<button id="sortdata">排序</button>
+<br/>
+<ul id="list">
+</ul>
+<script>
+    var data=[];
+    var container=document.getElementById("list");
+
+    /*添加数据函数*/
+    function updata(){
+        container.innerHTML="";
+        for(var i=0;i<data.length;i++){
+            var lielment=document.createElement("li");
+            lielment.innerText=data[i];
+            lielment.style.height=data[i]*1.5;
+            container.appendChild(lielment);
+        }
+    }
+    /*限制数组元素数量*/
+    function number(){
+        var input=document.getElementById("inputbox").value;
+        if (data.length>=60){
+            alert("队列已满");
+            return 0;
+        }
+        if(input>100||input<10){
+            alert("请输入10-100之间的数字");
+            return 0;
+        }
+    }
+
+    /*左侧入*/
+    document.getElementById("leftin").onclick=function(){
+        var input=document.getElementById("inputbox").value;
+        if(number()==0){
+            return;
+        }
+        else {
+            data.unshift(input);
+            updata();
+        }
+    }
+    /*右侧入*/
+    document.getElementById("rightin").onclick=function(){
+        var input=document.getElementById("inputbox").value;
+        data.push(input);
+        updata();
+    }
+    /*左侧出*/
+    document.getElementById("leftout").onclick=function(){
+        data.shift();
+        updata();
+    }
+    /*右侧出*/
+    document.getElementById("rightout").onclick=function(){
+        data.pop();
+        updata();
+    }
+    /*删除项*/
+    document.getElementById("list").onclick=function(event){
+        var index=data.indexOf(event.target);
+        data.splice(index,1);
+        updata();
+    }
+    /*随机数组*/
+    document.getElementById("random").onclick=function(){
+            for (var i = 0; i < 50; i++) {
+                data[i] = Math.floor(Math.random() * 90 + 10);
+            }
+            updata();
+    }
+    /*排序*/
+    document.getElementById("sortdata").onclick=function(){
+       var i=0,j=1,timer,temp;
+       timer=setInterval(run,20);
+       function run(){
+           if(i<data.length) {
+               if(j<data.length) {
+                   if (data[i] > data[j]) {
+                       temp = data[j];
+                       data[j] = data[i];
+                       data[i] = temp;
+                       updata();
+                   }
+                   j++;
+               }
+               else{
+                   i++;
+                   j=i+1;
+               }
+           }
+           else{
+               clearInterval(timer);
+               return;
+           }
+       }
+    }
+
+
+</script>
+</body>
+</html>
