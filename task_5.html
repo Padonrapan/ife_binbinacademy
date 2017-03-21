@@ -72,8 +72,14 @@
     /*右侧入*/
     document.getElementById("rightin").onclick=function(){
         var input=document.getElementById("inputbox").value;
-        data.push(input);
-        updata();
+        if(number()==0){
+            return;
+        }
+        else {
+            data.push(input);
+            updata();
+        }
+
     }
     /*左侧出*/
     document.getElementById("leftout").onclick=function(){
