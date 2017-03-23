@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>task_6</title>
+    <style>
+        li{
+            display:inline-block;
+            padding:5px;
+            margin:5px;
+            background-color:green;
+            color:#FFF;
+        }
+        .located{
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <textarea cols="30" rows="3" id="input"></textarea>
+    <button id="leftin">左侧入</button>
+    <button id="rightin">右侧入</button>
+    <button id="leftout">左侧出</button>
+    <button id="rightout">右侧出</button>
+    <input id="findinput"/>
+    <button id="search">查询</button>
+    <ul id="list"></ul>
+    <script>
+        var data=[];/*存放输入数据的数组*/
+        var matchnum=[];/*存放匹配数据的数组*/
+        var ul = document.getElementById("list");
+        function updata(){
+            ul.innerHTML="";
+            for(var i=0;i<data.length;i++) {
+                var lielement = document.createElement("li");
+                lielement.innerText= data[i];
+                ul.appendChild(lielement);
+            }
+            if(matchnum.length>0){
+                //给所有匹配到的li设置class属性
+                var lipack=document.getElementsByTagName("li");
+                for(i=0;i<=matchnum.length-1;i++){
+                    lipack[matchnum[i]].setAttribute("class","located")
+                }
+            }
+
+        }
+        /*左侧入*/
+        document.getElementById("leftin").onclick=function(){
+            var input=document.getElementById("input").value;
+            if(input=="") {
+                alert("请输入合法字符");
+                return;}
+            else{
+                var regex=new RegExp(/\s|;|；|，|,|"|:/g);
+                data=input.split(regex).concat(data);
+                updata();
+            }
+        }
+        /*右侧入*/
+        document.getElementById("rightin").onclick=function(){
+            var input=document.getElementById("input").value;
+            if(input=="") {
+                alert("请输入合法字符");
+                return;}
+            else{
+                var regex=new RegExp(/\s|;|；|，|,|"|:/g);
+                data=data.concat(input.split(regex));
+                updata();
+            }
+
+        }
+        /*左侧出*/
+        document.getElementById("leftout").onclick=function(){
+            data.shift();
+            updata();
+        }
+        /*右侧出*/
+        document.getElementById("rightout").onclick=function(){
+            data.pop();
+            updata();
+        }
+        /*删除选中项*/
+        document.getElementById("list").onclick=function(event){
+            var index=data.indexOf(event.target);
+            data.splice(index,1);
+            updata();
+        }
+        /*查找代码*/
+        document.getElementById("search").onclick=function(){
+            matchnum=[];
+            var lipack=document.getElementsByTagName("li");
+            //清空上一次搜索显示的结果
+            for(i=0;i<=lipack.length-1;i++){
+                lipack[i].setAttribute("class","")
+            }
+            var input=document.getElementById("findinput").value.trim();
+            var rex=new RegExp(input,"g");
+            var q=0;
+            for(i=0;i<=data.length-1;i++){
+                if(data[i].match(rex)){
+                    matchnum[q]=i;
+                    q++;
+                }
+                else{
+                    return;
+                }
+            }
+            updata();
+        };
+
+
+    </script>
+</body>
+</html>
