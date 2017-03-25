@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>task_7</title>
+    <style type="text/css">
+        #root {
+            display: flex;
+            margin: 50px auto;
+            width: 1200px;
+            height: 260px;
+            border: 1px solid #000;
+            justify-content: space-around;
+            align-items:center;
+        }
+        .child_1 {
+            display: flex;
+            width: 560px;
+            height: 220px;
+            border: 1px solid #ff001a;
+            justify-content: space-around;
+            align-items:center;
+        }
+        .child_2 {
+            display: flex;
+            justify-content: space-around;
+            align-items:center;
+            width: 240px;
+            height: 180px;
+            border: 1px solid #00C7D6;
+        }
+        .child_3 {
+            display: flex;
+            justify-content: center;
+            align-items:center;
+            width: 85px;
+            height: 140px;
+            border: 1px solid #00ff00;
+        }
+        button{
+            font-size:40px;
+            margin:20px;
+        }
+        button:nth-child(2){
+            margin-left:200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <div class="child_1">
+            <div class="child_2">
+                <div class="child_3"></div>
+                <div class="child_3"></div>
+            </div>
+            <div class="child_2">
+                <div class="child_3"></div>
+                <div class="child_3"></div>
+            </div>
+        </div>
+        <div class="child_1">
+            <div class="child_2">
+                <div class="child_3"></div>
+                <div class="child_3"></div>
+            </div>
+            <div class="child_2">
+                <div class="child_3"></div>
+                <div class="child_3"></div>
+            </div>
+        </div>
+    </div>
+    <button>前序</button>
+    <button>中序</button>
+    <button>后序</button>
+    <script type="text/javascript">
+        var btn = document.getElementsByTagName('button'),
+            treeRoot = document.getElementById('root'),
+            divList = [],
+            timer = null;
+
+        btn[0].onclick = function () {
+                reset();
+                preOrder(treeRoot);
+                changeColor();
+            }
+        btn[1].onclick = function () {
+                reset();
+                inOrder(treeRoot);
+                changeColor();
+            }
+        btn[2].onclick = function () {
+                reset();
+                postOrder(treeRoot);
+                changeColor();
+            }
+
+        /*前序遍历*/
+        function preOrder(node) {
+            if (!(node == null)) {
+                divList.push(node);
+                preOrder(node.firstElementChild);
+                preOrder(node.lastElementChild);
+            }
+        }
+        /*中序遍历*/
+        function inOrder(node) {
+            if (!(node == null)) {
+                inOrder(node.firstElementChild);
+                divList.push(node);
+                inOrder(node.lastElementChild);
+            }
+        }
+        /*后序遍历*/
+        function postOrder(node) {
+            if (!(node == null)) {
+                postOrder(node.firstElementChild);
+                postOrder(node.lastElementChild);
+                divList.push(node);
+            }
+        }
+
+        /*改变背景颜色*/
+        function changeColor() {
+            var i = 0;
+            divList[i].style.backgroundColor = 'blue';
+            timer = setInterval(function (argument) {
+                i++;
+                if (i < divList.length) {
+                    divList[i-1].style.backgroundColor = '#fff';
+                    divList[i].style.backgroundColor = 'blue';
+                } else {
+                    clearInterval(timer);
+                    divList[divList.length-1].style.backgroundColor = '#fff';
+                }
+            },500)
+        }
+        /*初始化*/
+        function reset() {
+            divList = [];
+            clearInterval(timer);
+            var divs = document.getElementsByTagName('div');
+            for (var i = 0; i < divs.length; i++) {
+                divs[i].style.backgroundColor = '#fff';
+            }
+        }
+    </script>
+</body>
+</html>
